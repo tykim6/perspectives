@@ -40,12 +40,12 @@ setting up.
 In most cases, your data didn't come from an experiment. This would be observational data, and you can
 use a hypothesis test to better interpret the data. Most data in the business world is observational.
 For example: if you have customer data and didn't run an experiment, then you only
-observed the outcome of purchasing process. You only have information about what ended up happening, and
-can't say _why_ it happened. Even so, there.
+observed the outcome of purchasing process. You only have information about _what_ ended up happening, and
+can't say _why_ it happened. To make matters worse, the random aspect of data can often distort your view of "what ended up happening", and lead you to make conclusions that aren't really there. A hypothesis test can help you decide if an observation from your data is due to randomness or not.
 
 ## What is a hypothesis test?
 
-I’d like to explain the key ideas behind hypothesis testing through a toy example I made up.
+I’d like to explain the key ideas behind hypothesis testing through an example I made up.
 
 ## Example: Hospitality
 
@@ -57,7 +57,7 @@ The CEO wants to explore the link between length of stay and cancel rates. If sh
 
 **The Hypothesis Test**:
 
-In the language of hypothesis testing, we are interested in two classes of hypotheses: the null hypothesis and the alternative hypothesis. The null and alternative represent two different models of how our data behaves, and by conducting statistical analysis on our data, we will decide which hypothesis is more plausible.
+We want a model for how our data behaves. Like any scientist worth their salt, we need to formulate a **testable hypothesis**. In the language of hypothesis testing, we are interested in two classes of hypotheses: the null hypothesis and the alternative hypothesis.
 
 You can think of the null hypothesis as the “cynical” perspective. In this scenario, the null hypothesis is that there is no true difference between cancellation rates of long and short term bookings, and the observed difference is due to pure random chance. This is the sense in which the null is "cynical" --- it dismisses the findings of our data as a mirage of randomness.
 
@@ -65,7 +65,7 @@ The alternative hypothesis, on the other hand, asserts that the observed differe
 
 Now that we have an intuition of what the two hypotheses are, we need to arrange them so that we can test them with our data.
 
-The null says that there is no true difference between cancellation rates on average. Granted, the null accepts that there are _observed_ differences between the two --- that was what the financial performance review told us at the very start of this case study. But this was just chance variation according to the null model --- in the long run, the averages will end up being the same. With that in mind, we can formulate our null hypothesis as saying that the average cancellation rate of STB's is the same as the average cancellation rate of LTB's. Using the variable $\bar{X}$ to denote the average, the null says
+The null says that there is no true difference between cancellation rates on average. Granted, the null accepts that there are _observed_ differences between the two --- that was what the financial performance review told us at the very start of this case study. But, according to the null model, this was just chance variation --- in the long run, the averages will end up being the same. With that in mind, we can formulate our null hypothesis as saying that "the average cancellation rate of STB's is the same as the average cancellation rate of LTB's". Using the variable $\bar{X}$ to denote the average, the null says
 
 $$
 \bar{X}_{\text{LTB}} = \bar{X}_{\text{STB}}
@@ -88,7 +88,7 @@ $$
 
 **Comparing Hypotheses**:
 
-Now that our hypotheses are defined, it's time to compare the two.
+Now that our hypotheses are defined, it's time to compare the two --- but first, a brief aside on why we're even allowed to do this:
 
 When you have a large number of data points, as many modern enterprises do, statistical theory lets you make some nice assumptions about what that data means. One such assumption, known as the Law of Large Numbers (LLN), says that the average you calculate from your data gets closer to the true average if you use more data.[^label2]
 
@@ -106,15 +106,27 @@ The LLN is the cornerstone that makes hypothesis testing useful at all. Remember
 
 > as the sample size grows large, the average of our data sample gets closer to the true average.
 
-This is the silver bullet against the "irrefutability" of the null model: the averages of the cancellation rates in our data sample are very closely approximating the true averages. The "true average" is a statistical concept[^label3] describing how the data was generated. In our example, the true average is the probability that determined whether a booking cancelled or not, and subsequently the data we collected was populated by the true average. It's quite abstract, and it really only exists in theory --- in practice, we'd never be able to measure the true average. The LLN tells us that in a large sample, the average we see in our data is closely approximating the true average, and a large difference in the observed averages suggests a meaningful difference in the true averages.
+This is the silver bullet against the "irrefutability" of the null model: the averages of the cancellation rates in our data sample are very closely approximating the true averages. The "true average" is a statistical concept[^label3] describing how the data was generated. In our example, the true average is the probability that determined whether a booking cancelled or not, and subsequently the data we collected was populated by the true average. It's quite abstract, and it really only exists in theory --- in practice, we'd never be able to measure the true average. The LLN tells us that in a large sample, the average we see in our data is closely approximating the true average, and a large difference in the observed averages suggests a meaningful difference in the true averages.[^label6]
 
-[^label3]: More formally known as the population parameter.
+[^label6]: This point is actually a bit more subtle, and relies on the Continuous Mapping Theorem, which states that continuous functions preserve limits even when the inputs are random variables. In general, if $X_n \rightarrow ^p \bar{X}$, then $g(X_n) \rightarrow g(\bar{X})$.
+[^label3]:
+    More formally known as the population parameter. Here, in our example, we're taking the difference of two random variable collections:
+
+    $$
+    g(\bar{X}_{LTB}, \bar{X}_{STB}) = \bar{X}_{LTB} - \bar{X}_{STB}
+    $$
+
+    By the law of large numbers, we know that the sample average $\bar{X}$ converge in probability to the true averages $\mu$. Thus, by the continuous mapping theorem, we can say that
+
+    $$
+    g(\bar{X}_{LTB}, \bar{X}_{STB}) \rightarrow^p g(\mu_{LTB}, \mu_{STB}) = \mu_{LTB} - \mu_{STB}
+    $$
 
 Let’s check-in: we have our null model, our alternative model, and an understanding of how our data relates to the two.
 
-Our null model, again, is that there is no difference between the cancel rates for long term stays and short term stays. Our alternative model is that there is a difference in cancel rates. From the description, the observed difference from our data was 20 percentage points.
+Our null model is that there is no difference between the cancel rates for long term stays and short term stays. Our alternative model is that there is a difference in cancel rates. From the description, the observed difference from our data was 20 percentage points.
 
-We can convert this observed difference to something known as a z-statistic: we divide the observed difference of 20 by the standard error, and that’s our z-statistic. I’ll save the details for the technical commentary, but at a high level, the z-statistic measures how far away our data is from the average that the null hypothesis expects.
+We can convert the discrepancy between the null and alternative model into something known as a z-statistic: we divide the observed difference of 20 by the standard deviation, and that’s our z-statistic. At a high level, the z-statistic measures how far away our measured difference is from the difference that the null hypothesis expects. Again, the null model in this example is that there is 0 difference.
 
 $$
 \mathbb{z} = \frac{(\bar{X}_{alternative} - \bar{X}_{null})}{\sigma}
@@ -134,10 +146,10 @@ From this definition, we can start to see what the hypothesis test is really doi
 
 **The Results**:
 
-Once we have the z-statistic, we are ready to test the hypotheses. Since we assume that we have a lot of data, we can use the normal approximation.[^label5] By providing the z-statistic computed from our data to the normal distribution, we get a probability in return. This probability is the result of our hypothesis test. Forget about the technical details for a moment, since any hypothesis test will ultimately lead you to this point, and assume that the probability you got as a result was 3.5%. What does this mean?
+Once we have the z-statistic, we are ready to test the hypotheses. Since we assume that we have a lot of data, we can use the normal approximation.[^label5] By providing the z-statistic computed from our data to the normal distribution, we get a probability in return. After applying some basic transformations, this probability is the result of our hypothesis test. Forget about the technical details for a moment, since any hypothesis test will ultimately lead you to this point, and assume that the probability you got as a result was 3.5%. What does this mean?
 
 [^label5]:
-    In practice, this is a non-trivial task that requires both statistical and domain knowledge. In real-world
+    In practice, this is a non-trivial task that requires both statistical and domain knowledge. However, for many real-world
     processes, the Central Limit Theorem often leads to distributions that are normal.
 
 By the construction of our hypothesis test, the result of 3.5% represents the probability that we observe data at least as extreme as what we got, assuming that the null hypothesis was true. In the context of the example:
@@ -146,7 +158,7 @@ The null hypothesis was that the cancellation rates for long and short term stay
 Our data shows that long term stays have a cancellation rate that is 20 percentage points lower than the cancellation rate for short term stays
 Our hypothesis test says that, if the null hypothesis is true, there is a 3.5% chance that we would observe that 20 percentage point difference, or any other difference larger than 20 points.
 
-This is the result of hypothesis testing. You start by assuming that the null hypothesis is true. Since you’re going out of your way to run a test, you probably observed something that isn’t compatible with the null hypothesis – your observed difference. You use a hypothesis test to tell you how likely it is that you got that observed difference, assuming that the null hypothesis was true.
+This is the result of hypothesis testing. You start by assuming that the null hypothesis is true. Since you’re going out of your way to run a test, you probably observed something that isn’t compatible with the null hypothesis – your observed difference. You use a hypothesis test to tell you how likely it is that you got that observed difference, assuming that the null hypothesis was true. Based on the likelihood of the observation, you'd decide whether you accept or reject the null. A higher likelihood of the data under the null would lead you to accept it, and a lower likelihood would lead you to reject it.
 
 In most settings, 3.5% is such a small probability that you’d start to begin to doubt the null hypothesis. Because your null hypothesis is so unlikely given the data that you have, you reject the null hypothesis in favor of the alternative. In doing so, you conclude that the cancellation rate for long term bookings is lower than the cancellation rate for short term bookings, at a statistically significant level.
 
