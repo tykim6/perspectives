@@ -108,9 +108,8 @@ The LLN is the cornerstone that makes hypothesis testing useful at all. Remember
 
 This is the silver bullet against the "irrefutability" of the null model: the averages of the cancellation rates in our data sample are very closely approximating the true averages. The "true average" is a statistical concept[^label3] describing how the data was generated. In our example, the true average is the probability that determined whether a booking cancelled or not, and subsequently the data we collected was populated by the true average. It's quite abstract, and it really only exists in theory --- in practice, we'd never be able to measure the true average. The LLN tells us that in a large sample, the average we see in our data is closely approximating the true average, and a large difference in the observed averages suggests a meaningful difference in the true averages.[^label6]
 
-[^label6]: This point is actually a bit more subtle, and relies on the Continuous Mapping Theorem, which states that continuous functions preserve limits even when the inputs are random variables. In general, if $X_n \rightarrow ^p \bar{X}$, then $g(X_n) \rightarrow g(\bar{X})$.
-[^label3]:
-    More formally known as the population parameter. Here, in our example, we're taking the difference of two random variable collections:
+[^label6]:
+    This point is actually a bit more subtle, and relies on the Continuous Mapping Theorem, which states that continuous functions preserve limits even when the inputs are random variables. In general, if $X_n \rightarrow ^p \bar{X}$, then $g(X_n) \rightarrow g(\bar{X})$.Here, in our example, we're taking the difference of two random variable collections:
 
     $$
     g(\bar{X}_{LTB}, \bar{X}_{STB}) = \bar{X}_{LTB} - \bar{X}_{STB}
@@ -121,6 +120,8 @@ This is the silver bullet against the "irrefutability" of the null model: the av
     $$
     g(\bar{X}_{LTB}, \bar{X}_{STB}) \rightarrow^p g(\mu_{LTB}, \mu_{STB}) = \mu_{LTB} - \mu_{STB}
     $$
+
+[^label3]: More formally known as the population parameter.
 
 Let’s check-in: we have our null model, our alternative model, and an understanding of how our data relates to the two.
 
