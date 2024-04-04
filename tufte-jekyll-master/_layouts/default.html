@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+{% include head.html %}
+
+<body>
+  {% include header.html %}
+  <article class="group">
+    {{ content }}
+  </article>
+  {% include print-footer.html %}
+  {% include footer.html %}
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      var previewIframe = document.createElement('iframe');
+      previewIframe.className = 'preview-iframe';
+      previewIframe.style.display = 'none';
+      previewIframe.style.position = 'fixed'; // Changed to 'fixed' to prevent affecting document flow
+      previewIframe.style.border = '2px solid #000';
+      previewIframe.style.borderRadius = '10px';
+      previewIframe.style.zIndex = '1000'; // Ensure it's above other content
+      document.body.appendChild(previewIframe);
+
+      let lastHoveredLink = null;
+
+      document.querySelectorAll('a').forEach(function (link) {
+        link.target = '_blank';
+
+        link.addEventListener('mouseover', function () {
+          // Check if the iframe should be repositioned or if it's the same link
+          if (lastHoveredLink !== this.href) {
+            lastHoveredLink = this.href;
+            clearTimeout(previewIframe.hideTimeout);
+            previewIframe.src = this.href;
+            previewIframe.style.display = 'block';
+            scaleIframe(previewIframe);
+            positionIframeNearLink(this, previewIframe);
+          }
+        });
+
+        link.addEventListener('mouseout', function () {
+          previewIframe.hideTimeout = setTimeout(() => {
+            previewIframe.style.display = 'none';
+            lastHoveredLink = null; // Reset last hovered link
+          }, 50);
+        });
+      });
+
+      previewIframe.addEventListener('mouseover', function () {
+        clearTimeout(previewIframe.hideTimeout);
+      });
+
+      previewIframe.addEventListener('mouseout', function () {
+        previewIframe.hideTimeout = setTimeout(() => {
+          previewIframe.style.display = 'none';
+        }, 50);
+      });
+
+      function scaleIframe(iframe) {
+        var viewportWidth = window.innerWidth;
+        var viewportHeight = window.innerHeight;
+        var widthRatio = 0.55; // Example ratio, adjust as needed
+        var heightRatio = 0.55; // Example ratio, adjust as needed
+
+        iframe.style.width = `${viewportWidth * widthRatio}px`;
+        iframe.style.height = `${viewportHeight * heightRatio}px`;
+      }
+
+      function positionIframeNearLink(link, iframe) {
+        var linkRect = link.getBoundingClientRect();
+        var topPosition = linkRect.top + window.scrollY - iframe.offsetHeight;
+        var leftPosition = linkRect.left + window.scrollX;
+
+        // Adjust if iframe goes beyond the bottom of the viewport
+        if (topPosition + iframe.offsetHeight > window.innerHeight + window.scrollY) {
+          topPosition = window.innerHeight + window.scrollY - iframe.offsetHeight;
+        }
+
+        // Adjust if iframe goes beyond the right edge of the viewport
+        if (leftPosition + iframe.offsetWidth > window.innerWidth + window.scrollX) {
+          leftPosition = window.innerWidth + window.scrollX - iframe.offsetWidth;
+        }
+
+        // Ensure the top position is not above the viewport
+        topPosition = Math.max(topPosition, window.scrollY);
+        leftPosition = Math.max(leftPosition, window.scrollX);
+
+        iframe.style.top = `${topPosition}px`;
+        iframe.style.left = `${leftPosition}px`;
+      }
+    });
+  </script>
+
+
+
+
+
+</body>
+
+</html>
