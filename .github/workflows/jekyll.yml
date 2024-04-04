@@ -1,21 +1,20 @@
-name: Jekyll site CI
+name: Build and Deploy Jekyll Site
 
 on:
   push:
     branches:
-      - main
+      - main # Adjust if your primary branch is named differently
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
-
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: "3.0" # Use the Ruby version that matches your local environment
+          ruby-version: "3.0" # Adjust as needed
 
       - name: Install dependencies
         run: bundle install
@@ -28,4 +27,5 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./_site
+          destination_branch: gh-pages # The branch GitHub Pages uses
           cname: datascienceperspectives.xyz
