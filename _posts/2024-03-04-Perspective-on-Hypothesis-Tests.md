@@ -70,26 +70,24 @@ Now that we have an intuition of what the two hypotheses are, we need to arrange
 
 The null says that there is no true difference between cancellation rates on average. Granted, the null accepts that there are _observed_ differences between the two --- that was what the financial performance review told us at the very start of this case study. But, according to the null model, this was just chance variation --- in the long run, the averages will end up being the same. With that in mind, we can formulate our null hypothesis as saying that "the average cancellation rate of STB's is the same as the average cancellation rate of LTB's". Using the variable $\bar{X}$ to denote the average, the null says
 
-$$
-\bar{X}_{\text{LTB}} = \bar{X}_{\text{STB}}
-$$
+$$ \bar{X}_{\text{LTB}} = \bar{X}_{\text{STB}} $$
 
 On the other hand, the alternative hypothesis says that there is a true difference in the observed cancellation rates. That, on average, we would still expect to see a difference in the cancellation rates between long and short term stays. We can formulate the alternative hypothesis as saying that the average cancellation rate is higher for an STB than for an LTB. {% sidenote 'one' "The formulation of the alternative hypothesis --- ''the average cancellation rate is **higher** for a short term stay'' --- is purely a function of the problem setup. Oftentimes, we are testing for a _difference_ in two averages, without any prior knowledge of what direction that difference is in. If this was the case, the alternative would've looked like
-    $$
-    \bar{X}_{\text{LTB}} \neq \bar{X}_{\text{STB}}
-    $$
+
+    $$ \bar{X}_{\text{LTB}} \neq \bar{X}_{\text{STB}} $$
+
     Recall that here, the starting point was noticeably less cancellations for long term stays, so we specifically want to test for the difference being a higher cancel rate for long term stays. This concept is known as one vs. two tailed tests. Read more [here](https://stats.oarc.ucla.edu/other/mult-pkg/faq/general/faq-what-are-the-differences-between-one-tailed-and-two-tailed-tests/)." %}
 
-$$
-\bar{X}_{\text{LTB}} < \bar{X}_{\text{STB}}
-$$
+$$ \bar{X}_{\text{LTB}} < \bar{X}_{\text{STB}} $$
 
 **Comparing Hypotheses**:
 
 Now that our hypotheses are defined, it's time to compare the two --- but first, a brief aside on why we're even allowed to do this:
 
 When you have a large number of data points, as many modern enterprises do, statistical theory lets you make some nice assumptions about what that data means. One such assumption, known as the Law of Large Numbers (LLN), says that the average you calculate from your data gets closer to the true average if you use more data. {% sidenote 'two' "Mathematically, we express the weak LLN as saying: for a sequence of independently and identically distributed random variables with finite mean and variance, $X_1, X_2,...$ the sample average, defined as $ \bar{X_n} = \frac{1}{n}(X_1 + ... + X_n) $, converges to the expected value: $\bar{X_n} \rightarrow^p \mu$ (which, since the variables were i.i.d., is the expected value of all the random variables in the sequence). The proof relies on Chebyshev's inequality, and is quick --- using the definition of sample variance, $Var(X_n) = \frac{\sigma^2_X}{n}$, Chebyshev's inequality says:
-    $$ \begin{equation}P(|\bar{X} - \mu| \geq \epsilon) \leq \frac{Var(X_n)}{\epsilon^2} = \frac{\sigma^2_x}{n\epsilon^2} \end{equation} $$.
+
+    $$ \begin{equation}P(|\bar{X} - \mu| \geq \epsilon) \leq \frac{Var(X_n)}{\epsilon^2} = \frac{\sigma^2_x}{n\epsilon^2} \end{equation} $$
+
     Through the $n$ in the denominator, you can see that as the sample size grows infinitely large, the probability $P(|\bar{X} - \mu| \geq \epsilon)$ converges to zero and
     thus $\bar{X} \rightarrow^p \mu$" %}
 
@@ -103,15 +101,11 @@ The LLN is the cornerstone that makes hypothesis testing useful at all. Remember
 
 This is the silver bullet against the "irrefutability" of the null model: the averages of the cancellation rates in our data sample are very closely approximating the true averages. The "true average" is a statistical concept{% sidenote 'three' "More formally known as the population parameter." %} describing how the data was generated. In our example, the true average is the probability that determined whether a booking cancelled or not, and subsequently the data we collected was populated by the true average. It's quite abstract, and it really only exists in theory --- in practice, we'd never be able to measure the true average. The LLN tells us that in a large sample, the average we see in our data is closely approximating the true average, and a large difference in the observed averages suggests a meaningful difference in the true averages.{% sidenote 'four' "This point is actually a bit more subtle, and relies on the Continuous Mapping Theorem, which states that continuous functions preserve limits even when the inputs are random variables. In general, if $$ X_n \rightarrow ^p \bar{X} $$, then $$ g(X_n) \rightarrow g(\bar{X}) $$.Here, in our example, we're taking the difference of two random variable collections:
 
-    $$
-    g(\bar{X}_{LTB}, \bar{X}_{STB}) = \bar{X}_{LTB} - \bar{X}_{STB}
-    $$
+    $$ g(\bar{X}_{LTB}, \bar{X}_{STB}) = \bar{X}_{LTB} - \bar{X}_{STB} $$
 
     By the law of large numbers, we know that the sample average $$ \bar{X} $$ converge in probability to the true averages $$ \mu $$. Thus, by the continuous mapping theorem, we can say that
 
-    $$
-    g(\bar{X}_{LTB}, \bar{X}_{STB}) \rightarrow^p g(\mu_{LTB}, \mu_{STB}) = \mu_{LTB} - \mu_{STB}
-    $$" %}
+    $$ g(\bar{X}_{LTB}, \bar{X}_{STB}) \rightarrow^p g(\mu_{LTB}, \mu_{STB}) = \mu_{LTB} - \mu_{STB} $$" %}
 
 Let’s check-in: we have our null model, our alternative model, and an understanding of how our data relates to the two.
 
@@ -119,15 +113,11 @@ Our null model is that there is no difference between the cancel rates for long 
 
 We can convert the discrepancy between the null and alternative model into something known as a z-statistic: we divide the observed difference of 20 by the standard deviation, and that’s our z-statistic. At a high level, the z-statistic measures how far away our measured difference is from the difference that the null hypothesis expects. Again, the null model in this example is that there is 0 difference.
 
-$$
-\mathbb{z} = \frac{(\bar{X}_{alternative} - \bar{X}_{null})}{\sigma}
-$$
+$$ \mathbb{z} = \frac{(\bar{X}_{alternative} - \bar{X}_{null})}{\sigma} $$
 
 In our example:
 
-$$
-z = \frac{\text{0.2}}{\text{standard deviation}}
-$$
+$$ z = \frac{\text{0.2}}{\text{standard deviation}} $$
 
 since the alternative average was 0.2, the null average was 0.0, and we would estimate the standard deviation from the data.{% sidenote 'five' " Methods of variance estimation deserves a whole separate post."}
 
