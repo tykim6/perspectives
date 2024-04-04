@@ -1,10 +1,13 @@
 ---
 layout: post
 title: "Perspective on Hypothesis Tests"
-toc: true
+date: 2024-03-04
+categories: idea
 ---
 
-<script type="text/javascript" async
+{% newthought 'When' %} should we believe? <!--more-->
+
+<!-- <script type="text/javascript" async
   src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
 
@@ -18,7 +21,7 @@ toc: true
     },
     "HTML-CSS": { availableFonts: ["TeX"] }
   });
-</script>
+</script> -->
 
 ## Why use hypothesis tests?
 
@@ -71,20 +74,15 @@ $$
 \bar{X}_{\text{LTB}} = \bar{X}_{\text{STB}}
 $$
 
-On the other hand, the alternative hypothesis says that there is a true difference in the observed cancellation rates. That, on average, we would still expect to see a difference in the cancellation rates between long and short term stays. We can formulate the alternative hypothesis as saying that the average cancellation rate is higher for an STB than for an LTB.[^label1]
+On the other hand, the alternative hypothesis says that there is a true difference in the observed cancellation rates. That, on average, we would still expect to see a difference in the cancellation rates between long and short term stays. We can formulate the alternative hypothesis as saying that the average cancellation rate is higher for an STB than for an LTB. {% sidenote 'one' "The formulation of the alternative hypothesis --- ''the average cancellation rate is **higher** for a short term stay'' --- is purely a function of the problem setup. Oftentimes, we are testing for a _difference_ in two averages, without any prior knowledge of what direction that difference is in. If this was the case, the alternative would've looked like
+    $$
+    \bar{X}_{\text{LTB}} \neq \bar{X}_{\text{STB}}
+    $$
+    Recall that here, the starting point was noticeably less cancellations for long term stays, so we specifically want to test for the difference being a higher cancel rate for long term stays. This concept is known as one vs. two tailed tests. Read more [here](https://stats.oarc.ucla.edu/other/mult-pkg/faq/general/faq-what-are-the-differences-between-one-tailed-and-two-tailed-tests/)." %}
 
 $$
 \bar{X}_{\text{LTB}} < \bar{X}_{\text{STB}}
 $$
-
-[^label1]:
-    The formulation of the alternative hypothesis --- "the average cancellation rate is **higher** for a short term stay" --- is purely a function of the problem setup. Oftentimes, we are testing for a _difference_ in two averages, without any prior knowledge of what direction that difference is in. If this was the case, the alternative would've looked like
-
-    $$
-    \bar{X}_{\text{LTB}} \neq \bar{X}_{\text{STB}}
-    $$
-
-    Recall that here, the starting point was noticeably less cancellations for long term stays, so we specifically want to test for the difference being a higher cancel rate for long term stays. This concept is known as one vs. two tailed tests. Read more [here](https://stats.oarc.ucla.edu/other/mult-pkg/faq/general/faq-what-are-the-differences-between-one-tailed-and-two-tailed-tests/).
 
 **Comparing Hypotheses**:
 
